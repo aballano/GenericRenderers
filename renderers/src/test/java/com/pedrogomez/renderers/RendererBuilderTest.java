@@ -5,12 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pedrogomez.renderers.exception.NeedsPrototypesException;
+import com.pedrogomez.renderers.exception.NullContentException;
+import com.pedrogomez.renderers.exception.NullLayoutInflaterException;
+import com.pedrogomez.renderers.exception.NullParentException;
 import com.pedrogomez.renderers.exception.PrototypeNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -51,11 +56,35 @@ public class RendererBuilderTest {
         rendererBuilder.withPrototypes(null);
     }
 
+    @Test
+    public void shouldAcceptNotNullPrototypes() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
+
+        ObjectRenderer renderer = new ObjectRenderer();
+        rendererBuilder.withPrototypes(Collections.singletonList(renderer));
+        assertEquals(1, rendererBuilder.getPrototypes().size());
+        assertEquals(renderer, rendererBuilder.getPrototypes().get(0));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotAcceptNullKeysBindingAPrototype() {
         RendererBuilder rendererBuilder = new RendererBuilder();
 
         rendererBuilder.bind(null, new ObjectRenderer());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotAcceptNullClass() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
+
+        rendererBuilder.bind(ObjectRenderer.class, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotAcceptNullTypePototype() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
+
+        rendererBuilder.bind(1, null);
     }
 
     @Test
@@ -68,6 +97,70 @@ public class RendererBuilderTest {
     }
 
     @Test
+    public void shouldAddPrototypeAndConfigureRendererBindingWithBuilder() {
+        ObjectRenderer renderer = new ObjectRenderer();
+        renderer.setView(mockedRendererView);
+
+        RendererBuilder rendererBuilder = new RendererBuilder()
+              .bind(0, renderer)
+              .withParent(mockedParent)
+              .withLayoutInflater(mockedLayoutInflater)
+              .withViewType(0);
+
+        rendererBuilder.buildRendererViewHolder();
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test(expected = NullContentException.class)
+    public void shouldThrowNullContentException() {
+        ObjectRenderer renderer = new ObjectRenderer();
+        renderer.setView(mockedRendererView);
+
+        RendererBuilder rendererBuilder = new RendererBuilder()
+              .bind(0, renderer)
+              .withParent(mockedParent)
+              .withLayoutInflater(mockedLayoutInflater)
+              .withViewType(null);
+
+        rendererBuilder.buildRendererViewHolder();
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test(expected = NullLayoutInflaterException.class)
+    public void shouldThrowNullLayoutInflaterException() {
+        ObjectRenderer renderer = new ObjectRenderer();
+        renderer.setView(mockedRendererView);
+
+        RendererBuilder rendererBuilder = new RendererBuilder()
+              .bind(0, renderer)
+              .withParent(mockedParent)
+              .withLayoutInflater(null)
+              .withViewType(0);
+
+        rendererBuilder.buildRendererViewHolder();
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test(expected = NullParentException.class)
+    public void shouldThrowNullParentException() {
+        ObjectRenderer renderer = new ObjectRenderer();
+        renderer.setView(mockedRendererView);
+
+        RendererBuilder rendererBuilder = new RendererBuilder()
+              .bind(0, renderer)
+              .withParent(null)
+              .withLayoutInflater(mockedLayoutInflater)
+              .withViewType(0);
+
+        rendererBuilder.buildRendererViewHolder();
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test
     public void shouldAddPrototypeAndConfigureRendererBindingForType() {
         int type = 1;
         RendererBuilder rendererBuilder = new RendererBuilder();
@@ -75,7 +168,7 @@ public class RendererBuilderTest {
         rendererBuilder.bind(type, new ObjectRenderer());
 
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(
-                new RendererContent<>(new Object(), type)));
+              new RendererContent<>(new Object(), type)));
     }
 
     @Test(expected = PrototypeNotFoundException.class)
@@ -91,9 +184,22 @@ public class RendererBuilderTest {
     }
 
     @Test
-    public void shouldAddPrototyeAndConfigureBindingOnConstruction() {
-        RendererBuilder rendererBuilder = new RendererBuilder(new ObjectRenderer());
+    public void shouldAddPrototypeAndConfigureRendererBindingForTypeWithMultiplePrototypes() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
 
+        rendererBuilder.bind(Object.class, new ObjectRenderer());
+        rendererBuilder.bind(String.class, new ObjectRenderer());
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test
+    public void shouldAddPrototyeAndConfigureBindingOnConstruction() {
+        ObjectRenderer renderer = new ObjectRenderer();
+        RendererBuilder rendererBuilder = new RendererBuilder(renderer);
+
+        assertEquals(1, rendererBuilder.getPrototypes().size());
+        assertEquals(renderer, rendererBuilder.getPrototypes().get(0));
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
     }
 

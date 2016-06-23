@@ -2,6 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'jacoco-android'
 
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -15,10 +19,16 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            testCoverageEnabled true
         }
         debug {
             testCoverageEnabled true
+        }
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 }

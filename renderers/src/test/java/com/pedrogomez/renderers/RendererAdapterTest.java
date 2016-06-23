@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.pedrovgs.renderers.BuildConfig;
 import com.pedrogomez.renderers.exception.NullRendererBuiltException;
 
 import org.junit.Before;
@@ -26,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
@@ -46,8 +47,8 @@ import static org.mockito.Mockito.when;
  *
  * @author Pedro Vicente Gómez Sánchez.
  */
-@Config(sdk = 21, manifest = Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 19, constants = BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class RendererAdapterTest {
 
     private static final int ANY_SIZE = 11;
