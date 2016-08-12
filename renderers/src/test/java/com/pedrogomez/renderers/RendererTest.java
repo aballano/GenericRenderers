@@ -1,5 +1,7 @@
 package com.pedrogomez.renderers;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +15,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Test created to check the correctness of Renderer<T>
- *
- * @author Pedro Vicente Gómez Sánchez.
- */
 public class RendererTest {
 
     @Spy
@@ -61,7 +61,7 @@ public class RendererTest {
 
     @Test(expected = NotInflateViewException.class)
     public void shouldThrowExceptionIfInflateReturnsAnEmptyViewAfterOnCreateCall() {
-        givenArendererInflatingANullView();
+        givenARendererInflatingANullView();
 
         onCreateRenderer();
     }
@@ -93,6 +93,17 @@ public class RendererTest {
         assertEquals(mockedContent, renderer.getContent());
     }
 
+    @Test
+    public void shouldReturnNonNullContextAfterCreation() throws Exception {
+        givenARendererInflatingView(mockedView);
+        when(mockedParent.getContext()).thenReturn(mock(Context.class));
+        assertNull(renderer.getContext());
+
+        renderer.onCreate(mockedContent, mockedLayoutInflater, mockedParent);
+
+        assertNotNull(renderer.getContext());
+    }
+
     private void initializeRenderer() {
         renderer = new ObjectRenderer();
     }
@@ -109,11 +120,11 @@ public class RendererTest {
         renderer.onRecycle(mockedContent);
     }
 
-    private void givenArendererInflatingANullView() {
+    private void givenARendererInflatingANullView() {
         givenARendererInflatingView(null);
     }
 
-    private void givenARendererInflatingView(View view) {
+    private void givenARendererInflatingView(@Nullable View view) {
         when(renderer.inflate(mockedLayoutInflater, mockedParent)).thenReturn(view);
     }
 }

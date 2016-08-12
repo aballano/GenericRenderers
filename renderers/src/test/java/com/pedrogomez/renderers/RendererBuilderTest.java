@@ -19,11 +19,6 @@ import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Test class created to check the correct behaviour of RendererBuilder
- *
- * @author Pedro Vicente Gómez Sánchez.
- */
 @SuppressWarnings({"unchecked", "ResultOfObjectAllocationIgnored", "ConstantConditions"})
 public class RendererBuilderTest {
 

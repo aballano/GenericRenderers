@@ -37,7 +37,7 @@ import java.util.Map;
  * <p/>
  * The library users have to extends RendererBuilder and create a new one with prototypes. The
  * RendererBuilder implementation will have to declare the mapping between objects from the
- * AdapteeCollection and Renderer instances passed to the prototypes collection.
+ * List and Renderer instances passed to the prototypes collection.
  * <p/>
  * This class is not going to implement the view recycling if is used with the RecyclerView widget
  * because RecyclerView class already implements the view recycling for us.

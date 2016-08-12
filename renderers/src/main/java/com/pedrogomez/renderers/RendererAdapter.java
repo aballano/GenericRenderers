@@ -35,7 +35,7 @@ import java.util.List;
  * renderer each time they have to show information into a RecyclerView.
  *
  * RendererAdapter has to be constructed with a LayoutInflater to inflate views, one
- * RendererBuilder to provide Renderer to RendererAdapter and one AdapteeCollection to
+ * RendererBuilder to provide Renderer to RendererAdapter and one Collection to
  * provide the elements to render.
  *
  * @author Pedro Vicente Gómez Sánchez.
@@ -111,7 +111,7 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
      */
     @Override
     public void onBindViewHolder(RendererViewHolder viewHolder, int position) {
-        onBindViewHolder(viewHolder, position, Collections.EMPTY_LIST);
+        onBindViewHolder(viewHolder, position, Collections.emptyList());
     }
 
     @Override
@@ -184,7 +184,7 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
      * @see RecyclerView.Adapter#notifyItemChanged(int)
      */
     public T updateAndNotify(int index, Object element) {
-        T set = update(index, (T) element);
+        T set = update(index, element);
         notifyItemChanged(index);
         return set;
     }
@@ -312,9 +312,9 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
     }
 
     /**
-     * Allows the client code to access the AdapteeCollection from subtypes of RendererAdapter.
+     * Allows the client code to access the List from subtypes of RendererAdapter.
      *
-     * @return collection used in the adapter as the adaptee class.
+     * @return list used in the adapter.
      */
     public List<T> getCollection() {
         return collection;

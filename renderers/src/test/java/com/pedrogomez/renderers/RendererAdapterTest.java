@@ -42,11 +42,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Test class created to check the correct behaviour of RendererAdapter.
- *
- * @author Pedro Vicente Gómez Sánchez.
- */
 @Config(sdk = 19, constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class RendererAdapterTest {

@@ -39,10 +39,12 @@ import java.util.List;
  *
  * @author Pedro Vicente Gómez Sánchez.
  */
+@SuppressWarnings("UnusedParameters")
 public abstract class Renderer<T> implements Cloneable {
 
     private View rootView;
     private T content;
+    private Context context;
 
     /**
      * Method called when the renderer is going to be created. This method has the responsibility of
@@ -56,10 +58,10 @@ public abstract class Renderer<T> implements Cloneable {
      */
     public void onCreate(@Nullable T content, LayoutInflater layoutInflater, ViewGroup parent) {
         this.content = content;
+        context = parent.getContext();
         rootView = inflate(layoutInflater, parent);
         if (rootView == null) {
-            throw new NotInflateViewException(
-                  "Renderer instances have to return a not null view in inflateView method");
+            throw new NotInflateViewException("Renderer instances have to return a not null view in inflateView method");
         }
         setUpView(rootView);
         hookListeners(rootView);
@@ -87,12 +89,10 @@ public abstract class Renderer<T> implements Cloneable {
     /**
      * Method to access to the current Renderer Context.
      *
-     * @return the context associated to the root view or null if the root view has not been
-     * initialized.
+     * @return the context associated to the root view.
      */
-    @Nullable
     protected Context getContext() {
-        return rootView != null ? rootView.getContext() : null;
+        return context;
     }
 
     /**
@@ -115,7 +115,6 @@ public abstract class Renderer<T> implements Cloneable {
      * Inflate renderer layout. The view inflated can't be null. If this method returns a null view a
      * NotInflateViewException will be thrown.
      * <p />
-     * <b>Please note that {@link #getContext()} will return null at this point.</b>
      *
      * @param inflater LayoutInflater service to inflate.
      * @param parent view group associated to the current Renderer instance.
@@ -155,7 +154,7 @@ public abstract class Renderer<T> implements Cloneable {
             //noinspection unchecked
             return (Renderer<T>) clone();
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("All your renderers should be clonables.");
+            throw new RuntimeException("All your renderers should be cloneable.");
         }
     }
 }

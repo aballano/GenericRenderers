@@ -21,8 +21,7 @@ public class ObjectRenderer extends Renderer<Object> {
     }
 
     @Override
-    public void render(List<Object> payloads) {
-    }
+    public void render(List<Object> payloads) { }
 
     public void setView(View view) {
         this.view = view;
