@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author alberto.ballano
  */
 @SuppressWarnings("unused")
-public class RendererContent<T> implements Serializable {
+public class RendererContent<T extends Serializable> implements Serializable {
 
     private T item;
     private int type = -1;
