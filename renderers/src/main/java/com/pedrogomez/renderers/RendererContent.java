@@ -1,12 +1,14 @@
 package com.pedrogomez.renderers;
 
+import java.io.Serializable;
+
 /**
  * Wrapper to use with {@link RendererBuilder} for type or class bindings.
  *
  * @author alberto.ballano
  */
 @SuppressWarnings("unused")
-public class RendererContent<T> {
+public class RendererContent<T> implements Serializable {
 
     private T item;
     private int type = -1;
