@@ -184,6 +184,24 @@ public class RendererBuilderTest {
               .getRendererBuilder();
 
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(1));
+
+    }
+
+    @Test
+    public void shouldReturnSpecificPrototypeInstance() {
+        ObjectRenderer prototype1 = new ObjectRenderer();
+        ObjectRenderer prototype2 = new ObjectRenderer();
+
+        RendererBuilder rendererBuilder = RendererBuilder.create()
+              .bind(Integer.class, prototype1)
+              .bind(String.class, prototype2)
+              .getRendererBuilder();
+
+        int index = rendererBuilder.getItemViewType(0);
+        assertEquals(prototype1, rendererBuilder.getPrototypeByIndex(index));
+
+        index = rendererBuilder.getItemViewType("");
+        assertEquals(prototype2, rendererBuilder.getPrototypeByIndex(index));
     }
 
     @Test
