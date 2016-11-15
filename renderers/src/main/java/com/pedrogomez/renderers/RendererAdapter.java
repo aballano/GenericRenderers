@@ -41,7 +41,6 @@ import java.util.List;
  *
  * @author Pedro Vicente Gómez Sánchez.
  */
-@SuppressWarnings({"unchecked", "SuspiciousMethodCalls"})
 public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder> {
 
     private final RendererBuilder<T> rendererBuilder;
@@ -54,6 +53,11 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
     public RendererAdapter(RendererBuilder rendererBuilder, List collection) {
         this.rendererBuilder = rendererBuilder;
         this.collection = collection;
+    }
+
+    public RendererAdapter<T> into(RecyclerView recyclerView) {
+        recyclerView.setAdapter(this);
+        return this;
     }
 
     @Override
