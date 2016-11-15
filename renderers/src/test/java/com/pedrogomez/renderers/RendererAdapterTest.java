@@ -15,6 +15,7 @@
  */
 package com.pedrogomez.renderers;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,20 +56,14 @@ public class RendererAdapterTest {
 
     private RendererAdapter<Object> adapter;
 
-    @Mock
-    private RendererBuilder mockedRendererBuilder;
-    @Mock
-    private List<Object> mockedCollection;
-    @Mock
-    private View mockedConvertView;
-    @Mock
-    private ViewGroup mockedParent;
-    @Mock
-    private ObjectRenderer mockedRenderer;
-    @Mock
-    private View mockedView;
-    @Mock
-    private RendererViewHolder mockedRendererViewHolder;
+    @Mock private RendererBuilder mockedRendererBuilder;
+    @Mock private List<Object> mockedCollection;
+    @Mock private View mockedConvertView;
+    @Mock private ViewGroup mockedParent;
+    @Mock private ObjectRenderer mockedRenderer;
+    @Mock private View mockedView;
+    @Mock private RendererViewHolder mockedRendererViewHolder;
+    @Mock private RecyclerView mockedRecyclerView;
 
     @Before
     public void setUp() throws Exception {
@@ -268,6 +263,14 @@ public class RendererAdapterTest {
     @Test(expected = NullRendererBuiltException.class)
     public void shouldThrowExceptionIfNullRenderer() {
         adapter.onBindViewHolder(mockedRendererViewHolder, ANY_POSITION);
+    }
+
+    @Test
+    public void shouldHookIntoRecyclerView() throws Exception {
+        RendererAdapter adapter = new RendererAdapter<>(mockedRendererBuilder);
+        adapter.into(mockedRecyclerView);
+
+        verify(mockedRecyclerView).setAdapter(adapter);
     }
 
     private void initializeMocks() {

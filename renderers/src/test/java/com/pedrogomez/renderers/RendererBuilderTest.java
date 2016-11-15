@@ -15,9 +15,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings({"unchecked", "ResultOfObjectAllocationIgnored", "ConstantConditions"})
 public class RendererBuilderTest {
@@ -210,6 +213,25 @@ public class RendererBuilderTest {
               .getRendererBuilder();
 
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
+    @Test
+    public void shouldCreateEmptyAdapter() throws Exception {
+        RendererAdapter adapter = RendererBuilder.create()
+              .bind(String.class, new ObjectRenderer())
+              .build();
+
+        assertTrue(adapter.getCollection().isEmpty());
+    }
+
+    @Test
+    public void shouldCreateAdapterWithItems() throws Exception {
+        List<String> list = Arrays.asList("1", "2", "3");
+        RendererAdapter adapter = RendererBuilder.create()
+              .bind(String.class, new ObjectRenderer())
+              .buildWith(list);
+
+        assertEquals(list, adapter.getCollection());
     }
 
     private void initializeMocks() {
