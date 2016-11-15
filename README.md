@@ -150,6 +150,20 @@ public class SectionRenderer extends Renderer<RendererContent<String>>
 
 ![Beautiful!](./art/screenshot_demo_3.jpg?raw=true)
 
+#### EXTRA: Note that binding generic classes is also possible:
+
+Assuming that we have many different Video implementations extending from `BaseVideo` but we want to map all of them to 
+the same renderer we could just do:
+
+```java
+RendererBuilder rendererBuilder = new RendererBuilder()
+              .bind(BaseVideo.class, new VideoRenderer())
+              .bind(String.class, new SectionRenderer());
+```
+
+And therefore all `BaseVideo` subclasses added to the adapter will be mapped to the `VideoRenderer`. For obvious reasons 
+bindings to Object.class are forbidden to avoid unexpected errors, for that case please check the first usage above.
+
 INCLUDING IN YOUR PROJECT
 ---
 

@@ -128,6 +128,11 @@ public class RendererBuilder<T> {
         if (clx == null || prototype == null) {
             throw new IllegalArgumentException("The binding RecyclerView binding can't be configured using null instances");
         }
+        if (clx.equals(Object.class)) {
+            throw new IllegalArgumentException("Making a bind to the Object class means that every item will be mapped to"
+                  + "the specified Renderer and thus all other bindings are invalidated. Please use the standard "
+                  + "constructor for that");
+        }
         prototypes.add(prototype);
         binding.put(clx, prototype.getClass());
         return this;
@@ -270,8 +275,11 @@ public class RendererBuilder<T> {
         }
 
         Class<?> aClass = content.getClass();
-        if (binding.containsKey(aClass)) {
-            return binding.get(aClass);
+        //noinspection SSBasedInspection
+        for (Map.Entry<Class<T>, Class<? extends Renderer>> entry : binding.entrySet()) {
+            if (entry.getKey().isAssignableFrom(aClass)) {
+                return entry.getValue();
+            }
         }
 
         throw new PrototypeNotFoundException("No prototype was found for the class " + aClass.getSimpleName());

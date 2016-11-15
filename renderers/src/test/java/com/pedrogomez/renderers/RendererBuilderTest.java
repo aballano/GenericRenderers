@@ -86,9 +86,9 @@ public class RendererBuilderTest {
     public void shouldAddPrototypeAndConfigureRendererBinding() {
         RendererBuilder rendererBuilder = new RendererBuilder();
 
-        rendererBuilder.bind(Object.class, new ObjectRenderer());
+        rendererBuilder.bind(String.class, new ObjectRenderer());
 
-        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(""));
     }
 
     @Test
@@ -182,10 +182,10 @@ public class RendererBuilderTest {
     public void shouldAddPrototypeAndConfigureRendererBindingForTypeWithMultiplePrototypes() {
         RendererBuilder rendererBuilder = new RendererBuilder();
 
-        rendererBuilder.bind(Object.class, new ObjectRenderer());
-        rendererBuilder.bind(String.class, new ObjectRenderer());
+        rendererBuilder.bind(Integer.class, new ObjectRenderer());
+        rendererBuilder.bind(String.class, new SubObjectRenderer());
 
-        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(1));
     }
 
     @Test
@@ -198,6 +198,24 @@ public class RendererBuilderTest {
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
     }
 
+    @Test
+    public void shouldCheckBindingsThatInheritParentClass() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
+
+        rendererBuilder.bind(ParentClass.class, new ObjectRenderer());
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new ChildClass()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionForObjectBinding() {
+        RendererBuilder rendererBuilder = new RendererBuilder();
+
+        rendererBuilder.bind(Object.class, new ObjectRenderer());
+
+        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(new Object()));
+    }
+
     private void initializeMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -207,5 +225,12 @@ public class RendererBuilderTest {
         objectRenderer.setView(mockedRendererView);
         SubObjectRenderer subObjectRenderer = new SubObjectRenderer();
         subObjectRenderer.setView(mockedRendererView);
+    }
+
+    private static class ParentClass {
+        ParentClass() { }
+    }
+    private static class ChildClass extends ParentClass {
+        ChildClass() { }
     }
 }
