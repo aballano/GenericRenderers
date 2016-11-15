@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.pedrovgs.renderers.BuildConfig;
 import com.pedrogomez.renderers.exception.NeedsPrototypesException;
 import com.pedrogomez.renderers.exception.NullContentException;
 import com.pedrogomez.renderers.exception.NullLayoutInflaterException;
@@ -12,8 +13,11 @@ import com.pedrogomez.renderers.exception.PrototypeNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +27,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings({"unchecked", "ResultOfObjectAllocationIgnored", "ConstantConditions"})
+@Config(sdk = 19, constants = BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class RendererBuilderTest {
 
     @Mock private View mockedConvertView;
@@ -184,24 +190,6 @@ public class RendererBuilderTest {
               .getRendererBuilder();
 
         assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(1));
-
-    }
-
-    @Test
-    public void shouldReturnSpecificPrototypeInstance() {
-        ObjectRenderer prototype1 = new ObjectRenderer();
-        ObjectRenderer prototype2 = new ObjectRenderer();
-
-        RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(Integer.class, prototype1)
-              .bind(String.class, prototype2)
-              .getRendererBuilder();
-
-        int index = rendererBuilder.getItemViewType(0);
-        assertEquals(prototype1, rendererBuilder.getPrototypeByIndex(index));
-
-        index = rendererBuilder.getItemViewType("");
-        assertEquals(prototype2, rendererBuilder.getPrototypeByIndex(index));
     }
 
     @Test
