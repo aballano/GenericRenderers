@@ -97,7 +97,7 @@ public class RendererBuilderTest {
         renderer.setView(mockedRendererView);
 
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(0, renderer)
+              .bind(String.class, renderer)
               .getRendererBuilder()
               .withParent(mockedParent)
               .withLayoutInflater(mockedLayoutInflater)
@@ -114,7 +114,7 @@ public class RendererBuilderTest {
         renderer.setView(mockedRendererView);
 
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(0, renderer)
+              .bind(String.class, renderer)
               .getRendererBuilder()
               .withParent(mockedParent)
               .withLayoutInflater(mockedLayoutInflater)
@@ -131,7 +131,7 @@ public class RendererBuilderTest {
         renderer.setView(mockedRendererView);
 
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(0, renderer)
+              .bind(String.class, renderer)
               .getRendererBuilder()
               .withParent(mockedParent)
               .withLayoutInflater(null)
@@ -148,7 +148,7 @@ public class RendererBuilderTest {
         renderer.setView(mockedRendererView);
 
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(0, renderer)
+              .bind(String.class, renderer)
               .getRendererBuilder()
               .withParent(null)
               .withLayoutInflater(mockedLayoutInflater)
@@ -163,10 +163,10 @@ public class RendererBuilderTest {
     public void shouldAddPrototypeAndConfigureRendererBindingForType() {
         int type = 1;
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(type, new ObjectRenderer())
+              .bind(type, new ObjectRendererContentRenderer())
               .getRendererBuilder();
 
-        assertEquals(ObjectRenderer.class, rendererBuilder.getPrototypeClass(
+        assertEquals(ObjectRendererContentRenderer.class, rendererBuilder.getPrototypeClass(
               new RendererContent<>(new Object(), type)));
     }
 
@@ -175,8 +175,8 @@ public class RendererBuilderTest {
         int type = 1;
         int anotherType = 2;
         RendererBuilder rendererBuilder = RendererBuilder.create()
-              .bind(type, new ObjectRenderer())
-              .bind(anotherType, new ObjectRenderer())
+              .bind(type, new ObjectRendererContentRenderer())
+              .bind(anotherType, new ObjectRendererContentRenderer())
               .getRendererBuilder();
 
         rendererBuilder.getPrototypeClass(new RendererContent<>(new Object(), -1));

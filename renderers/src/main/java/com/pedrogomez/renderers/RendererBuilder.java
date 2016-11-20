@@ -99,8 +99,8 @@ public class RendererBuilder<T> {
      * Initializes a RendererBuilder without Renderers. Using this constructor some
      * binding configuration is needed.
      */
-    public static ExtendedRendererBuilder create() {
-        return new Builder<>(new RendererBuilder<>());
+    public static <T> ExtendedRendererBuilder<T> create() {
+        return new Builder<>(new RendererBuilder<T>());
     }
 
     /**
@@ -289,9 +289,9 @@ public class RendererBuilder<T> {
     }
 
     public interface ExtendedRendererBuilder<T> extends BaseRendererBuilder<T> {
-        BindedExtendedRendererBuilder<T> bind(Class clx, Renderer prototype);
+        <Type> BindedExtendedRendererBuilder<T> bind(Class<? extends Type> clx, Renderer<Type> prototype);
 
-        BindedExtendedRendererBuilder<T> bind(int type, Renderer prototype);
+        <Type> BindedExtendedRendererBuilder<T> bind(int type, Renderer<RendererContent<Type>> prototype);
     }
 
     public static class Builder<T> implements SimpleRendererBuilder<T>, BindedExtendedRendererBuilder<T> {
