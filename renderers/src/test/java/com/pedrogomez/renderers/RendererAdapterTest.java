@@ -203,6 +203,16 @@ public class RendererAdapterTest {
         verify(adapter).notifyItemChanged(0, ANY_OTHER_OBJECT);
     }
 
+
+    @Test
+    public void shouldMoveElementFromOnePositionToAnotherFromCollection() {
+        adapter.moveAndNotify(0, 1, ANY_OBJECT);
+
+        verify(mockedCollection).remove(0);
+        verify(mockedCollection).add(1, ANY_OBJECT);
+        verify(adapter).moveAndNotify(0, 1, ANY_OBJECT);
+    }
+
     @Test
     public void shouldRemoveAllElementsFromCollection() {
         adapter.removeAllAndNotify(ANY_OBJECT_COLLECTION);

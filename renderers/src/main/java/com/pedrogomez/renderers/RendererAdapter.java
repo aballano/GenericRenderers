@@ -203,6 +203,24 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
     }
 
     /**
+     * @see RendererAdapter#removeAt(int)
+     * @see RendererAdapter#add(int, Object)
+     */
+    public void move(int currentPosition, int newPosition, Object element) {
+        removeAt(currentPosition);
+        add(newPosition, element);
+    }
+
+    /**
+     * @see RendererAdapter#move(int, int, Object)
+     * @see RecyclerView.Adapter#notifyItemMoved(int, int)
+     */
+    public void moveAndNotify(int currentPosition, int newPosition, Object element) {
+        move(currentPosition, newPosition, element);
+        notifyItemMoved(currentPosition, newPosition);
+    }
+
+    /**
      * @see List#remove(Object)
      */
     public boolean remove(Object element) {
