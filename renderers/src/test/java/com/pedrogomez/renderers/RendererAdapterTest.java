@@ -210,7 +210,7 @@ public class RendererAdapterTest {
 
         verify(mockedCollection).remove(0);
         verify(mockedCollection).add(1, ANY_OBJECT);
-        verify(adapter).moveAndNotify(0, 1, ANY_OBJECT);
+        verify(adapter).notifyItemMoved(0, 1);
     }
 
     @Test
