@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.pedrogomez.renderers.RendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 import com.pedrogomez.renderers.sample.R;
 import com.pedrogomez.renderers.sample.model.RandomVideoCollectionGenerator;
@@ -53,7 +52,8 @@ public class SimpleRecyclerViewActivity extends Activity {
 
         List<Video> videoCollection = RandomVideoCollectionGenerator.generateList(VIDEO_COUNT);
 
-        RendererBuilder<Video> rendererBuilder = new RendererBuilder<>(new VideoRenderer());
-        recyclerView.setAdapter(new RendererAdapter<>(rendererBuilder, videoCollection));
+        RendererBuilder.create(new VideoRenderer())
+              .buildWith(videoCollection)
+              .into(recyclerView);
     }
 }

@@ -15,6 +15,7 @@
  */
 package com.pedrogomez.renderers;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
@@ -40,19 +41,23 @@ import java.util.List;
  *
  * @author Pedro Vicente Gómez Sánchez.
  */
-@SuppressWarnings({"unchecked", "SuspiciousMethodCalls"})
 public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder> {
 
     private final RendererBuilder<T> rendererBuilder;
     private final List<T> collection;
 
     public RendererAdapter(RendererBuilder rendererBuilder) {
-        this(rendererBuilder, new ArrayList());
+        this(rendererBuilder, new ArrayList(10));
     }
 
     public RendererAdapter(RendererBuilder rendererBuilder, List collection) {
         this.rendererBuilder = rendererBuilder;
         this.collection = collection;
+    }
+
+    public RendererAdapter<T> into(RecyclerView recyclerView) {
+        recyclerView.setAdapter(this);
+        return this;
     }
 
     @Override
@@ -196,9 +201,35 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
      * @see RecyclerView.Adapter#notifyItemChanged(int)
      */
     public T updateAndNotify(int index, Object element) {
+        return updateAndNotify(index, element, null);
+    }
+
+    /**
+     * @see List#set(int, Object)
+     * @see RecyclerView.Adapter#notifyItemChanged(int, Object)
+     */
+    public T updateAndNotify(int index, Object element, @Nullable Object payload) {
         T set = update(index, element);
-        notifyItemChanged(index);
+        notifyItemChanged(index, payload);
         return set;
+    }
+
+    /**
+     * @see RendererAdapter#removeAt(int)
+     * @see RendererAdapter#add(int, Object)
+     */
+    public void move(int currentPosition, int newPosition, Object element) {
+        removeAt(currentPosition);
+        add(newPosition, element);
+    }
+
+    /**
+     * @see RendererAdapter#move(int, int, Object)
+     * @see RecyclerView.Adapter#notifyItemMoved(int, int)
+     */
+    public void moveAndNotify(int currentPosition, int newPosition, Object element) {
+        move(currentPosition, newPosition, element);
+        notifyItemMoved(currentPosition, newPosition);
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package com.pedrogomez.renderers;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,25 +50,20 @@ public class RendererAdapterTest {
     private static final int ANY_SIZE = 11;
     private static final int ANY_POSITION = 2;
     private static final Object ANY_OBJECT = new Object();
+    private static final Object ANY_OTHER_OBJECT = new Object();
     private static final Collection<Object> ANY_OBJECT_COLLECTION = new LinkedList<>();
     private static final int ANY_ITEM_VIEW_TYPE = 3;
 
     private RendererAdapter<Object> adapter;
 
-    @Mock
-    private RendererBuilder mockedRendererBuilder;
-    @Mock
-    private List<Object> mockedCollection;
-    @Mock
-    private View mockedConvertView;
-    @Mock
-    private ViewGroup mockedParent;
-    @Mock
-    private ObjectRenderer mockedRenderer;
-    @Mock
-    private View mockedView;
-    @Mock
-    private RendererViewHolder mockedRendererViewHolder;
+    @Mock private RendererBuilder mockedRendererBuilder;
+    @Mock private List<Object> mockedCollection;
+    @Mock private View mockedConvertView;
+    @Mock private ViewGroup mockedParent;
+    @Mock private ObjectRenderer mockedRenderer;
+    @Mock private View mockedView;
+    @Mock private RendererViewHolder mockedRendererViewHolder;
+    @Mock private RecyclerView mockedRecyclerView;
 
     @Before
     public void setUp() throws Exception {
@@ -214,7 +210,25 @@ public class RendererAdapterTest {
         adapter.updateAndNotify(0, ANY_OBJECT);
 
         verify(mockedCollection).set(0, ANY_OBJECT);
-        verify(adapter).notifyItemChanged(0);
+        verify(adapter).notifyItemChanged(0, null);
+    }
+
+    @Test
+    public void shouldUpdateElementAtPositionFromCollectionAndPassPayload() {
+        adapter.updateAndNotify(0, ANY_OBJECT, ANY_OTHER_OBJECT);
+
+        verify(mockedCollection).set(0, ANY_OBJECT);
+        verify(adapter).notifyItemChanged(0, ANY_OTHER_OBJECT);
+    }
+
+
+    @Test
+    public void shouldMoveElementFromOnePositionToAnotherFromCollection() {
+        adapter.moveAndNotify(0, 1, ANY_OBJECT);
+
+        verify(mockedCollection).remove(0);
+        verify(mockedCollection).add(1, ANY_OBJECT);
+        verify(adapter).notifyItemMoved(0, 1);
     }
 
     @Test
@@ -277,6 +291,14 @@ public class RendererAdapterTest {
     @Test(expected = NullRendererBuiltException.class)
     public void shouldThrowExceptionIfNullRenderer() {
         adapter.onBindViewHolder(mockedRendererViewHolder, ANY_POSITION);
+    }
+
+    @Test
+    public void shouldHookIntoRecyclerView() throws Exception {
+        RendererAdapter adapter = new RendererAdapter<>(mockedRendererBuilder);
+        adapter.into(mockedRecyclerView);
+
+        verify(mockedRecyclerView).setAdapter(adapter);
     }
 
     private void initializeMocks() {
