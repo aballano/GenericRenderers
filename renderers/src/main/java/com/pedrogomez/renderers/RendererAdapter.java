@@ -133,9 +133,9 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
     }
 
     @Override public void onViewDetachedFromWindow(RendererViewHolder viewHolder) {
-        super.onViewDetachedFromWindow(viewHolder);
         Renderer renderer = viewHolder.getRenderer();
         renderer.onDetached();
+        super.onViewDetachedFromWindow(viewHolder);
     }
 
     /**

@@ -17,7 +17,6 @@ package com.pedrogomez.renderers;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,12 +137,12 @@ public abstract class Renderer<T> implements Cloneable {
     protected void hookListeners(View rootView) { }
 
     /**
-     * @see RecyclerView.Adapter#onViewAttachedToWindow(RecyclerView.ViewHolder)
+     * @see RendererAdapter#onViewAttachedToWindow(RendererViewHolder)
      */
     public void onAttached() { }
 
     /**
-     * @see RecyclerView.Adapter#onViewDetachedFromWindow(RecyclerView.ViewHolder)
+     * @see RendererAdapter#onViewDetachedFromWindow(RendererViewHolder)
      */
     public void onDetached() { }
 
