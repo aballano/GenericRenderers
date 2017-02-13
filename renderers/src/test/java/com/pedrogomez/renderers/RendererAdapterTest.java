@@ -128,6 +128,24 @@ public class RendererAdapterTest {
         verify(adapter).updateRendererExtraValues(ANY_OBJECT, mockedRenderer, ANY_POSITION);
     }
 
+    @Test
+    public void shouldForwardAttachEvent() {
+        when(mockedRendererViewHolder.getRenderer()).thenReturn(mockedRenderer);
+
+        adapter.onViewAttachedToWindow(mockedRendererViewHolder);
+
+        verify(mockedRenderer).onAttached();
+    }
+
+    @Test
+    public void shouldForwardDetachEvent() {
+        when(mockedRendererViewHolder.getRenderer()).thenReturn(mockedRenderer);
+
+        adapter.onViewDetachedFromWindow(mockedRendererViewHolder);
+
+        verify(mockedRenderer).onDetached();
+    }
+
     @Test(expected = NullRendererBuiltException.class)
     public void shouldThrowNullRendererBuiltException() {
         adapter.onCreateViewHolder(mockedParent, ANY_ITEM_VIEW_TYPE);
