@@ -142,6 +142,15 @@ public class RendererAdapterTest {
         verify(mockedRenderer).onDetached();
     }
 
+    @Test
+    public void shouldForwardRecycleEvent() {
+        when(mockedRendererViewHolder.getRenderer()).thenReturn(mockedRenderer);
+
+        adapter.onViewRecycled(mockedRendererViewHolder);
+
+        verify(mockedRenderer).onRecycled();
+    }
+
     @Test(expected = NullRendererBuiltException.class)
     public void shouldThrowNullRendererBuiltException() {
         adapter.onCreateViewHolder(mockedParent, ANY_ITEM_VIEW_TYPE);
@@ -220,7 +229,6 @@ public class RendererAdapterTest {
         verify(mockedCollection).set(0, ANY_OBJECT);
         verify(adapter).notifyItemChanged(0, ANY_OTHER_OBJECT);
     }
-
 
     @Test
     public void shouldMoveElementFromOnePositionToAnotherFromCollection() {

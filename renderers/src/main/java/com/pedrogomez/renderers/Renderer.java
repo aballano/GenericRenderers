@@ -147,6 +147,11 @@ public abstract class Renderer<T> implements Cloneable {
     public void onDetached() { }
 
     /**
+     * @see RendererAdapter#onViewRecycled(RendererViewHolder)
+     */
+    public void onRecycled() { }
+
+    /**
      * Method where the presentation logic algorithm have to be declared or implemented.
      *
      * @param payloads Extra payloads for fine-grain rendering.
