@@ -45,6 +45,7 @@ public abstract class Renderer<T> implements Cloneable {
     private View rootView;
     private T content;
     private Context context;
+    private int position;
 
     /**
      * Method called when the renderer is going to be created. This method has the responsibility of
@@ -109,6 +110,21 @@ public abstract class Renderer<T> implements Cloneable {
      */
     public void setContent(T content) {
         this.content = content;
+    }
+
+    /**
+     * Stores the position of the item in the Adapter.
+     *
+     * @param position
+     */
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    /**
+     * @returns the position of the item
+     */
+    protected final int getPosition() {
+        return this.position;
     }
 
     /**

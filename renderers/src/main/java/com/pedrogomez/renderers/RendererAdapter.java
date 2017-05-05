@@ -127,6 +127,7 @@ public class RendererAdapter<T> extends RecyclerView.Adapter<RendererViewHolder>
             throw new NullRendererBuiltException("RendererBuilder have to return a not null renderer");
         }
         renderer.setContent(content);
+        renderer.setPosition(position);
         updateRendererExtraValues(content, renderer, position);
         renderer.render(payloads);
     }
