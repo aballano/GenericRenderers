@@ -35,7 +35,7 @@ public class RendererTest {
     @Mock
     private View mockedView;
 
-    private int test_position = 1;
+    private int testPosition = 1;
 
     @Before
     public void setUp() {
@@ -58,7 +58,7 @@ public class RendererTest {
 
         onCreateRenderer();
 
-        assertEquals(renderer.getPosition(), test_position);
+        assertEquals(renderer.getPosition(), testPosition);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class RendererTest {
 
     private void onCreateRenderer() {
         renderer.onCreate(mockedContent, mockedLayoutInflater, mockedParent);
-        renderer.setPosition(test_position);
+        renderer.setPosition(testPosition);
     }
 
     private void onRecycleRenderer() {
