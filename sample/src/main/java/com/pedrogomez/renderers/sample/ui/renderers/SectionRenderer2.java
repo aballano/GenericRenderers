@@ -26,7 +26,8 @@ import com.pedrogomez.renderers.sample.R;
 
 import java.util.List;
 
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
  */
 public class SectionRenderer2 extends Renderer<RendererContent<String>> {
 
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView title;
 
     /**

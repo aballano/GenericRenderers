@@ -25,7 +25,7 @@ import com.pedrogomez.renderers.sample.R;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -36,14 +36,14 @@ import butterknife.ButterKnife;
  */
 public class SectionRenderer extends Renderer<String> {
 
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView title;
 
     /**
      * Inflate the main layout used to render videos in the list view.
      *
      * @param inflater LayoutInflater service to inflate.
-     * @param parent ViewGroup used to inflate xml.
+     * @param parent   ViewGroup used to inflate xml.
      * @return view inflated.
      */
     @Override

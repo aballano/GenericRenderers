@@ -30,7 +30,7 @@ import com.pedrogomez.renderers.sample.ui.renderers.VideoRenderer;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,7 +42,7 @@ public class AdvancedRecyclerViewActivity extends Activity {
 
     private static final int VIDEO_COUNT = 100;
 
-    @Bind(R.id.rv_renderers)
+    @BindView(R.id.rv_renderers)
     RecyclerView recyclerView;
 
     @Override
@@ -55,10 +55,10 @@ public class AdvancedRecyclerViewActivity extends Activity {
         List<Video> videoCollection = RandomVideoCollectionGenerator.generateList(VIDEO_COUNT);
 
         RendererAdapter adapter = RendererBuilder.create()
-              .bind(Video.class, new VideoRenderer())
-              .bind(String.class, new SectionRenderer())
-              .build()
-              .into(recyclerView);
+                .bind(Video.class, new VideoRenderer())
+                .bind(String.class, new SectionRenderer())
+                .build()
+                .into(recyclerView);
         recyclerView.setAdapter(adapter);
 
         for (int i = 0, videoCollectionSize = videoCollection.size(); i < videoCollectionSize; i++) {

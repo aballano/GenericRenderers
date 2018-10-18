@@ -1,17 +1,17 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/reports")
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -19,23 +19,52 @@ android {
         release {
             minifyEnabled false
         }
-        debug {
-            testCoverageEnabled true
-        }
     }
-    testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
-        }
-    }
+
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    def mockito_version = 'latest.release'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation 'org.robolectric:robolectric:3.8'
+}
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.0'
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+    // generated classes
+    classDirectories = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    // sources
+    sourceDirectories = files([
+            android.sourceSets.main.java.srcDirs
+    ])
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }

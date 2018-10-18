@@ -16,6 +16,7 @@
 package com.pedrogomez.renderers;
 
 import android.support.v4.util.ArrayMap;
+import android.support.v7.util.DiffUtil;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -89,7 +90,7 @@ public class RendererBuilder<T> {
     public RendererBuilder(List<Renderer> prototypes) {
         if (prototypes == null) {
             throw new NeedsPrototypesException("RendererBuilder has to be created with a non null collection of"
-                  + "Collection<Renderer to provide new or recycled Renderer instances");
+                    + "Collection<Renderer to provide new or recycled Renderer instances");
         }
         this.prototypes = prototypes;
         binding = new ArrayMap<>(1);
@@ -129,7 +130,7 @@ public class RendererBuilder<T> {
     public RendererBuilder<T> withPrototypes(List<Renderer> prototypes) {
         if (prototypes == null) {
             throw new NeedsPrototypesException("RendererBuilder has to be created with a non null collection of"
-                  + "List<Renderer> to provide new or recycled Renderer instances");
+                    + "List<Renderer> to provide new or recycled Renderer instances");
         }
         this.prototypes.addAll(prototypes);
         return this;
@@ -217,7 +218,7 @@ public class RendererBuilder<T> {
         }
         if (itemViewType == -1) {
             throw new PrototypeNotFoundException("Review your RendererBuilder implementation, you are returning one"
-                  + " prototype class not found in prototypes collection");
+                    + " prototype class not found in prototypes collection");
         }
         return itemViewType;
     }
@@ -286,6 +287,8 @@ public class RendererBuilder<T> {
         RendererAdapter<T> build();
 
         RendererAdapter<T> buildWith(List collection);
+
+        AsyncRendererAdapter<T> build(DiffUtil.ItemCallback<T> listDiffer);
     }
 
     public interface ExtendedRendererBuilder<T> extends BaseRendererBuilder<T> {
@@ -314,6 +317,10 @@ public class RendererBuilder<T> {
             return rendererBuilder;
         }
 
+        @Override public AsyncRendererAdapter<T> build(DiffUtil.ItemCallback<T> listDiffer) {
+            return new AsyncRendererAdapter<>(rendererBuilder, listDiffer);
+        }
+
         /**
          * Given a class configures the binding between a class and a Renderer class.
          *
@@ -324,12 +331,12 @@ public class RendererBuilder<T> {
         @Override public BindedExtendedRendererBuilder<T> bind(Class clx, Renderer prototype) {
             if (clx == null || prototype == null) {
                 throw new IllegalArgumentException("The binding RecyclerView binding can't be configured using null "
-                      + "instances");
+                        + "instances");
             }
             if (clx.equals(Object.class)) {
                 throw new IllegalArgumentException("Making a bind to the Object class means that every item will be mapped "
-                      + "to the specified Renderer and thus all other bindings are invalidated. Please use the standard "
-                      + "constructor for that");
+                        + "to the specified Renderer and thus all other bindings are invalidated. Please use the standard "
+                        + "constructor for that");
             }
             rendererBuilder.prototypes.add(prototype);
             rendererBuilder.binding.put(clx, prototype.getClass());
@@ -346,7 +353,7 @@ public class RendererBuilder<T> {
         @Override public BindedExtendedRendererBuilder<T> bind(int type, Renderer prototype) {
             if (prototype == null) {
                 throw new IllegalArgumentException("The binding RecyclerView binding can't be configured using null "
-                      + "instances");
+                        + "instances");
             }
             rendererBuilder.typeBindings.put(type, prototype.getClass());
             rendererBuilder.prototypes.add(prototype);
