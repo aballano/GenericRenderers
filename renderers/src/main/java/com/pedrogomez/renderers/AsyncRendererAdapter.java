@@ -38,7 +38,7 @@ public class AsyncRendererAdapter<T> extends Adapter<RendererViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return getItem(position).hashCode();
     }
 
     /**
