@@ -4,7 +4,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     }
 }
 
@@ -13,6 +14,21 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+    }
+
+    apply plugin: 'checkstyle'
+
+    task checkstyle(type: Checkstyle) {
+        configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        classpath = files()
+        configProperties = [
+                'proj.module.dir'      : projectDir.absolutePath,
+                'checkstyle.cache.file': './build/cache/checkstyle-cache'
+        ]
     }
 }
 
