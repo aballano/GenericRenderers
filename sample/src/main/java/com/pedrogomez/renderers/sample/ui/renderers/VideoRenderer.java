@@ -29,7 +29,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,9 +42,9 @@ import butterknife.OnClick;
  */
 public class VideoRenderer extends Renderer<Video> {
 
-    @Bind(R.id.iv_thumbnail)
+    @BindView(R.id.iv_thumbnail)
     ImageView thumbnail;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView title;
 
     /**

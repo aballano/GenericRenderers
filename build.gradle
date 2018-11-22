@@ -1,16 +1,19 @@
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
 
     apply plugin: 'checkstyle'
@@ -23,8 +26,8 @@ allprojects {
 
         classpath = files()
         configProperties = [
-              'proj.module.dir'      : projectDir.absolutePath,
-              'checkstyle.cache.file': './build/cache/checkstyle-cache'
+                'proj.module.dir'      : projectDir.absolutePath,
+                'checkstyle.cache.file': './build/cache/checkstyle-cache'
         ]
     }
 }

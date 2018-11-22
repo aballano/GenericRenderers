@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings({"unchecked", "ResultOfObjectAllocationIgnored", "ConstantConditions"})
 @Config(sdk = 19, constants = BuildConfig.class)
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class RendererBuilderTest {
 
     @Mock private View mockedConvertView;

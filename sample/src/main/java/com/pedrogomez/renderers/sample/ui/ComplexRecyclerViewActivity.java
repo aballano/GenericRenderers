@@ -32,7 +32,7 @@ import com.pedrogomez.renderers.sample.ui.renderers.VideoRenderer;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -47,7 +47,7 @@ public class ComplexRecyclerViewActivity extends Activity {
     private static final int TYPE_SECTION = 0;
     private static final int TYPE_FOOTER = 1;
 
-    @Bind(R.id.rv_renderers)
+    @BindView(R.id.rv_renderers)
     RecyclerView recyclerView;
 
     @Override
