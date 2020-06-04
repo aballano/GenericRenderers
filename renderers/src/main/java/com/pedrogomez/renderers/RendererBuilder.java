@@ -15,8 +15,8 @@
  */
 package com.pedrogomez.renderers;
 
-import android.support.v4.util.ArrayMap;
-import android.support.v7.util.DiffUtil;
+import androidx.collection.ArrayMap;
+import androidx.recyclerview.widget.DiffUtil;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

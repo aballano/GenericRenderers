@@ -17,8 +17,8 @@ package com.pedrogomez.renderers.sample.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pedrogomez.renderers.RendererBuilder;
 import com.pedrogomez.renderers.sample.R;
