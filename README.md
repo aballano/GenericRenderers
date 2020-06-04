@@ -3,6 +3,10 @@ GenericRenderers [![Build Status](https://travis-ci.org/aballano/GenericRenderer
 
 Based on [Renderers lib](https://github.com/pedrovgs/Renderers) made by [pedrovgs](https://github.com/pedrovgs)
 
+WHY THIS FORK ?
+---
+
+This aim of this fork is to migrate the library to Android X  
 
 DIFFERENCE WITH RENDERERS
 ---
